@@ -9,8 +9,8 @@
       (keyup)="searchImages()"
     />
   </div>
-  <div *ngIf="searchResultRecords?.hits?.length; else emptyState">
-    <div *ngFor="let record of searchResultRecords?.hits">
+  <div class="list">
+    <div *ngFor="let record of items$ | async">
       <div class="search-result-row">
         <img [src]="record.previewURL" [alt]="record?.tags" />
         <div>Likes: {{ record?.likes }} Downloads: {{ record?.downloads }}</div>
