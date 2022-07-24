@@ -18,13 +18,11 @@ import { ImageApiServce } from './services/image-api.service';
 export class AppComponent implements OnInit, OnDestroy {
   searchBoxPlaceHolder = 'Enter your query to search';
   searchQuery;
-  currentPage = 1;
-  perPage = 3;
+  currentPage: number = 1;
   destroy = new Subject();
   searchResultRecords: ISearchResult;
   obsArray: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
   items$: Observable<any> = this.obsArray.asObservable();
-
   pageSize: number = 10;
 
   constructor(private apiService: ImageApiServce) {}
@@ -39,7 +37,7 @@ export class AppComponent implements OnInit, OnDestroy {
   searchImages() {
     if (this.searchQuery) {
       this.apiService
-        .searchImages(this.searchQuery, this.currentPage, this.perPage)
+        .searchImages(this.searchQuery, this.currentPage, this.pageSize)
         .pipe(takeUntil(this.destroy))
         .subscribe((response: ISearchResult) => {
           this.searchResultRecords = response;
@@ -60,14 +58,16 @@ export class AppComponent implements OnInit, OnDestroy {
 
     scroll$.subscribe((scrollPos) => {
       let limit = content!.scrollHeight - content!.clientHeight;
-      if (scrollPos === limit) {
-        this.currentPage += this.pageSize;
+      console.log(limit, scrollPos);
+      if (Math.round(scrollPos) === limit) {
+        this.currentPage++;
+        console.log('this.currentPage', this.currentPage);
         forkJoin([
           this.items$.pipe(take(1)),
           this.apiService.searchImages(
             this.searchQuery,
             this.currentPage,
-            this.perPage
+            this.pageSize
           ),
         ]).subscribe((data: any) => {
           const newArr = [...data[0], ...data[1].hits];
