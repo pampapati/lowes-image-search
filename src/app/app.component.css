@@ -14,8 +14,8 @@
   padding-left: 1rem;
 }
 .list {
-  max-height: 300px;
-  width: 460px;
+  max-height: 80vh;
+  width: auto;
   overflow: scroll;
 }
 .search-container {
@@ -27,7 +27,6 @@
   padding: 1rem;
   color: rgb(223, 89, 89);
   font-size: bold;
-  /* background-color: rgb(211, 214, 214); */
   margin: 1rem;
   border-radius: 10%;
 }
