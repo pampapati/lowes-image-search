@@ -1,0 +1,25 @@
+<div class="page-container">
+  <h1>Search for images</h1>
+  <div class="search-container">
+    <input
+      class="search-input"
+      type="text"
+      [placeholder]="searchBoxPlaceHolder"
+      [(ngModel)]="searchQuery"
+      (keyup)="searchImages()"
+    />
+  </div>
+  <div *ngIf="searchResultRecords?.hits?.length; else emptyState">
+    <div *ngFor="let record of searchResultRecords?.hits">
+      <div class="search-result-row">
+        <img [src]="record.previewURL" [alt]="record?.tags" />
+        <div>Likes: {{ record?.likes }} Downloads: {{ record?.downloads }}</div>
+      </div>
+    </div>
+  </div>
+  <ng-template #emptyState
+    ><section *ngIf="searchQuery" class="empty-records">
+      No Record Found
+    </section></ng-template
+  >
+</div>
